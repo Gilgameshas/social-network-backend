@@ -7,7 +7,15 @@ from .forms import PostForm
 
 @api_view(['GET'])
 def post_list(request):
-    posts = Post.objects.all()
+    posts = Post.objects.all() #Change later to feed
+
+    serializer = PostSerializer(posts, many=True)
+
+    return JsonResponse(serializer.data, safe=False)
+
+@api_view(['GET'])
+def post_list_profile(request, id):
+    posts = Post.objects.filter(created_by_id=id)
 
     serializer = PostSerializer(posts, many=True)
 
